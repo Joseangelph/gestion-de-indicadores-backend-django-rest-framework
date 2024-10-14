@@ -14,7 +14,7 @@ class DestinoImpactoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DestinoImpacto
-        fields = ['id', 'nombre', 'concepto', 'categoria_analisis', 'categoria_analisis_nombre']
+        fields = ['id', 'nombre', 'concepto', 'habilitado' ,'categoria_analisis', 'categoria_analisis_nombre']
         
         
 class ComponenteSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class ComponenteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Componente
-        fields = ['id', 'nombre', 'concepto', 'destino_impacto', 'destino_impacto_nombre']
+        fields = ['id', 'nombre', 'concepto', 'habilitado', 'destino_impacto', 'destino_impacto_nombre']
         
         
 class DimensionSerializer(serializers.ModelSerializer):    
@@ -31,7 +31,7 @@ class DimensionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dimension
-        fields = ['id', 'nombre', 'concepto', 'destino_impacto', 'destino_impacto_nombre', 'componente', 'componente_nombre']
+        fields = ['id', 'nombre', 'concepto', 'habilitado','destino_impacto', 'destino_impacto_nombre', 'componente', 'componente_nombre']
         
     def get_componente_nombre(self, obj):
         """Retorna el nombre del componente si existe, de lo contrario devuelve una cadena vacía."""
@@ -49,7 +49,7 @@ class SubdimensionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subdimension
-        fields = ['id', 'nombre', 'concepto', 'dimension', 'dimension_nombre']
+        fields = ['id', 'nombre', 'concepto', 'habilitado', 'dimension', 'dimension_nombre']
 
 
 class IndicadorSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class IndicadorSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Indicador
-        fields = ['id', 'nombre', 'concepto', 'tipo', 'dimension', 'subdimension', 'subdimension_nombre', 'dimension_nombre']
+        fields = ['id', 'nombre', 'concepto', 'habilitado', 'tipo', 'dimension', 'subdimension', 'subdimension_nombre', 'dimension_nombre']
     
     def get_subdimension_nombre(self, obj):
         """Retorna el nombre de la subdimensión si existe, de lo contrario devuelve una cadena vacía."""

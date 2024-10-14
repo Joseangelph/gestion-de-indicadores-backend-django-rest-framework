@@ -4,8 +4,11 @@ from .models import Indicador,CategoriaAnalisis, DestinoImpacto, Componente, Dim
 from .serializers import (IndicadorSerializer,
                           CategoriaAnalisisSerializer, DestinoImpactoSerializer,
                           ComponenteSerializer, DimensionSerializer, SubdimensionSerializer)
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+
 
 # # Create your views here.
 
@@ -38,3 +41,26 @@ class IndicadorViewSet(viewsets.ModelViewSet):
     queryset = Indicador.objects.all()
     serializer_class = IndicadorSerializer
     permission_classes = [IsAuthenticated]
+    
+    
+@api_view(['POST'])
+def toggle_habilitado(request, model_name, pk):
+    model_map = {
+        'categoria': CategoriaAnalisis,
+        'destino': DestinoImpacto,
+        'componente': Componente,
+        'dimension': Dimension,
+        'subdimension': Subdimension,
+        'indicador': Indicador,
+    }
+    
+    try:
+        model = model_map[model_name]
+        instance = model.objects.get(pk=pk)
+        instance.habilitado = not instance.habilitado  # Alterna el estado
+        instance.save()
+        return Response({'status': 'ok', 'habilitado': instance.habilitado})
+    except KeyError:
+        return Response({'error': 'Modelo no encontrado'}, status=400)
+    except model.DoesNotExist:
+        return Response({'error': 'Elemento no encontrado'}, status=404)
