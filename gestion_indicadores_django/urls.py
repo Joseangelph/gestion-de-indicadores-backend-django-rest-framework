@@ -21,5 +21,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sesion/', include('app_sesion.urls')),
-    path('gestion_indicadores/', include('app_gestionar_indicadores.urls')),
+    path('gestion_indicadores/', include('app_gestion_indicadores.urls')),
+    path('gestion_plataformas/', include('app_gestion_plataformas.urls')),
 ]
