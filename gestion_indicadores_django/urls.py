@@ -23,4 +23,5 @@ urlpatterns = [
     path('sesion/', include('app_sesion.urls')),
     path('gestion_indicadores/', include('app_gestion_indicadores.urls')),
     path('gestion_plataformas/', include('app_gestion_plataformas.urls')),
+    path('gestion_evaluaciones/', include('app_gestion_evaluaciones.urls')),
 ]

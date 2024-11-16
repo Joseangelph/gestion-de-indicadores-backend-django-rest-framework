@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import PlataformasTecnologicas
+from .models import PlataformaTecnologica
 
 class PlataformasTecnologicasSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PlataformasTecnologicas
+        model = PlataformaTecnologica
         fields = '__all__'

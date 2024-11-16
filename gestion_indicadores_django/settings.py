@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'app_gestion_indicadores',
     'app_gestion_plataformas',
+    'app_gestion_evaluaciones',
     'app_sesion',
     'corsheaders',
 ]
@@ -59,7 +60,6 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
-    #'http://172.0.0.1:3000'# Ajusta esto a la URL de tu frontend
 ]
 
 CORS_ALLOWED_CREDENTIALS = True

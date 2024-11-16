@@ -4,27 +4,27 @@ from django.db import models
 
 class CategoriaAnalisis(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     concepto = models.TextField(null=True)
     habilitado = models.BooleanField(default=True)
 
 class DestinoImpacto(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     categoria_analisis = models.ForeignKey(CategoriaAnalisis, on_delete=models.CASCADE)
     concepto = models.TextField(null=True)
     habilitado = models.BooleanField(default=True)
 
 class Componente(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     destino_impacto = models.ForeignKey(DestinoImpacto, on_delete=models.CASCADE, null=True, blank=True)
     concepto = models.TextField(null=True)
     habilitado = models.BooleanField(default=True)
 
 class Dimension(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     destino_impacto = models.ForeignKey(DestinoImpacto, on_delete=models.CASCADE, null=True, blank=True)
     componente = models.ForeignKey(Componente, on_delete=models.CASCADE, null=True, blank=True)
     concepto = models.TextField(null=True)
@@ -32,14 +32,14 @@ class Dimension(models.Model):
 
 class Subdimension(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE, null=True, blank=True)
     concepto = models.TextField(null=True)
     habilitado = models.BooleanField(default=True)
 
 class Indicador(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=1000)
     concepto = models.TextField()
     dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE, null=True, blank=True)
     subdimension = models.ForeignKey(Subdimension, on_delete=models.CASCADE, null=True, blank=True)
