@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Indicador,CategoriaAnalisis, DestinoImpacto, Componente, Dimension, Subdimension
+from app_gestion_plataformas.models import PlataformaTecnologica
 from .serializers import (IndicadorSerializer,
                           CategoriaAnalisisSerializer, DestinoImpactoSerializer,
                           ComponenteSerializer, DimensionSerializer, SubdimensionSerializer)
@@ -18,31 +19,36 @@ class CategoriaAnalisisViewSet(viewsets.ModelViewSet):
     serializer_class = CategoriaAnalisisSerializer
     permission_classes = [IsAuthenticated,IsAdminOrExpertUser]
 
+
 class DestinoImpactoViewSet(viewsets.ModelViewSet):
     queryset = DestinoImpacto.objects.all()
     serializer_class = DestinoImpactoSerializer
     permission_classes = [IsAuthenticated,IsAdminOrExpertUser]
+
 
 class ComponenteViewSet(viewsets.ModelViewSet):
     queryset = Componente.objects.all()
     serializer_class = ComponenteSerializer
     permission_classes = [IsAuthenticated,IsAdminOrExpertUser]
 
+
 class DimensionViewSet(viewsets.ModelViewSet):
     queryset = Dimension.objects.all()
     serializer_class = DimensionSerializer
     permission_classes = [IsAuthenticated,IsAdminOrExpertUser]
+
 
 class SubdimensionViewSet(viewsets.ModelViewSet):
     queryset = Subdimension.objects.all()
     serializer_class = SubdimensionSerializer
     permission_classes = [IsAuthenticated,IsAdminOrExpertUser]
 
+
 class IndicadorViewSet(viewsets.ModelViewSet):
     queryset = Indicador.objects.all()
     serializer_class = IndicadorSerializer
-    permission_classes = [AllowAny]
-    # permission_classes = [IsAuthenticated, IsAdminOrExpertUser]
+    permission_classes = [IsAuthenticated, IsAdminOrExpertUser]
+    # permission_classes = [AllowAny]
     
     
 @api_view(['POST']) 
@@ -55,6 +61,7 @@ def toggle_habilitado(request, model_name, pk):
         'dimension': Dimension,
         'subdimension': Subdimension,
         'indicador': Indicador,
+        'plataforma': PlataformaTecnologica,
     }
     
     try:

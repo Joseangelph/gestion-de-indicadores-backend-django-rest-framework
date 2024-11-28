@@ -10,7 +10,7 @@ class EvaluacionPlataformaSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = EvaluacionPlataforma
-        fields = ['id','plataforma', 'estado', 'objetivo','fecha_creacion', 'fecha_actualizacion', 'plataforma_nombre']
+        fields = ['id','plataforma', 'estado', 'objetivo','fecha_creacion', 'fecha_actualizacion', 'plataforma_nombre', 'fecha_evaluada']
         
         
 class SeleccionIndicadorSerializer(serializers.ModelSerializer):

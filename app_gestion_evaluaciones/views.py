@@ -8,6 +8,8 @@ from .models import EvaluacionPlataforma, SeleccionIndicador, EvaluacionIndicado
 from app_gestion_indicadores.models import Indicador
 from django.contrib.auth import get_user_model
 from .serializers import EvaluacionPlataformaSerializer, SeleccionIndicadorSerializer, EvaluacionIndicadorSerializer
+from app_gestion_plataformas.serializers import PlataformasTecnologicasSerializer
+from django.utils.timezone import now
 from app_gestion_indicadores.permissions import IsAdminOrExpertUser
 from rest_framework.permissions import IsAuthenticated
 
@@ -16,7 +18,17 @@ User = get_user_model()
 class EvaluacionPlataformaViewSet(viewsets.ModelViewSet):
     queryset = EvaluacionPlataforma.objects.all()
     serializer_class = EvaluacionPlataformaSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+    
+    @action(detail=True, methods=['patch'])
+    def finalizar_evaluacion(self, request, pk=None):
+        evaluacion_plataforma = get_object_or_404(EvaluacionPlataforma, pk=pk)
+        if evaluacion_plataforma.estado != 'evaluada':
+            evaluacion_plataforma.estado = 'evaluada'
+            evaluacion_plataforma.fecha_evaluada = now()  # Registrar la fecha de evaluación
+            evaluacion_plataforma.save()
+            return Response({'message': 'Evaluación finalizada exitosamente.'}, status=status.HTTP_200_OK)
+        return Response({'error': 'La evaluación ya estaba en estado evaluada.'}, status=status.HTTP_400_BAD_REQUEST)
        
    
 class SeleccionIndicadorViewSet(viewsets.ModelViewSet):
@@ -42,7 +54,6 @@ class SeleccionIndicadorViewSet(viewsets.ModelViewSet):
         ]
         SeleccionIndicador.objects.bulk_create(selecciones)
         
-        
         # Cambiar el estado de la evaluación de plataforma a "pendiente a evaluación"
         evaluacion_plataforma = get_object_or_404(EvaluacionPlataforma, id=evaluacionPlataforma_id)
         evaluacion_plataforma.estado = 'pendiente a evaluar'
@@ -50,12 +61,11 @@ class SeleccionIndicadorViewSet(viewsets.ModelViewSet):
 
         return Response({'message': 'Selección de indicadores realizada con éxito y estado actualizado a pendiente a evaluación.'}, status=status.HTTP_201_CREATED)
 
-
  
 class EvaluacionIndicadorViewSet(viewsets.ModelViewSet):
     queryset = EvaluacionIndicador.objects.all()
     serializer_class = EvaluacionIndicadorSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     # Acción personalizada para crear múltiples evaluaciones de indicadores
     @action(detail=False, methods=['post'])
@@ -124,3 +134,15 @@ def get_evaluaciones_por_plataforma(request, plataforma_id):
     # evaluaciones = EvaluacionIndicador.objects.filter(seleccionIndicador.evaluacionPlataforma=plataforma_id)
     # serializer = EvaluacionIndicadorSerializer(evaluaciones, many=True)
     # return Response(serializer.data)
+    
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_plataforma_por_evaluacion(request, evaluacion_id):
+    """
+    Retorna la plataforma tecnológica asociada a una evaluación específica.
+    """
+    evaluacion = get_object_or_404(EvaluacionPlataforma, id=evaluacion_id)
+    plataforma = evaluacion.plataforma  
+    serializer = PlataformasTecnologicasSerializer(plataforma)
+    return Response(serializer.data)

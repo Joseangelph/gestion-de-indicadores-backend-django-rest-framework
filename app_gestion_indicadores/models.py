@@ -38,12 +38,18 @@ class Subdimension(models.Model):
     habilitado = models.BooleanField(default=True)
 
 class Indicador(models.Model):
+    TIPOS = (
+        ('potencial', 'Potencial'),
+        ('transversal', 'Transversal'),
+        ('real', 'Real'),
+    )
+    
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=1000)
     concepto = models.TextField()
     dimension = models.ForeignKey(Dimension, on_delete=models.CASCADE, null=True, blank=True)
     subdimension = models.ForeignKey(Subdimension, on_delete=models.CASCADE, null=True, blank=True)
-    tipo = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=50, choices=TIPOS)
     habilitado = models.BooleanField(default=True)
 
     def __str__(self):

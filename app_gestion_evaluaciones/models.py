@@ -19,6 +19,7 @@ class EvaluacionPlataforma(models.Model):
     objetivo = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
+    fecha_evaluada = models.DateTimeField(null=True, blank=True)  # Campo para registrar la fecha de evaluación
     
     
 class SeleccionIndicador(models.Model):

@@ -1,10 +1,8 @@
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 from rest_framework import generics
 from .models import CustomUser
 from .serializers import RegisterSerializer, CustomTokenObtainPairSerializer, UserSerializer
 from rest_framework import viewsets
-
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 
@@ -19,7 +17,6 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [AllowAny]  # Permite que cualquier usuario acceda a esta vista
     
     
-
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
