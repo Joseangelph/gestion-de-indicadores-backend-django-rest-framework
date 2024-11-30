@@ -8,6 +8,11 @@ class CategoriaAnalisisSerializer(serializers.ModelSerializer):
         model = CategoriaAnalisis
         fields = '__all__'
         
+    def validate_nombre(self, value):
+        if CategoriaAnalisis.objects.filter(nombre__iexact=value).exists():
+            raise serializers.ValidationError("Ya existe una categoría con este nombre.")
+        return value
+        
 
 class DestinoImpactoSerializer(serializers.ModelSerializer):
     categoria_analisis_nombre = serializers.CharField(source='categoria_analisis.nombre', read_only=True)

@@ -137,7 +137,7 @@ def get_evaluaciones_por_plataforma(request, plataforma_id):
     
     
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAdminOrExpertUser])
 def get_plataforma_por_evaluacion(request, evaluacion_id):
     """
     Retorna la plataforma tecnológica asociada a una evaluación específica.
